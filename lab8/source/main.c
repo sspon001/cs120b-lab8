@@ -23,13 +23,19 @@ int main(void) {
 	DDRC = 0xFF ; PORTC = 0x00 ;
 	DDRD = 0xFF ; PORTD = 0x00 ;
 	ADC_init() ;
-	unsigned short max = 0x8A ;
-	unsigned short min = 0x30 ;
-    while (1) {
-	    x = ADC ;
-	    PORTB = 0x00 ;
-	    if(x >= (max/2)) PORTB = 0x01 ;
-	    else PORTB = 0x00 ;
-    }
+	unsigned short max = 0xFF ;
+	unsigned decrement = max / 8 ;
+	while(1){
+		x = ADC ;
+		unsigned char i = (char) x ;
+		if (i <= (decrement * 1)) PORTB = 0x01;
+		else if (i <= (decrement * 2)) PORTB = 0x03;
+		else if (i <= (decrement * 3)) PORTB = 0x07;
+		else if (i <= (decrement * 4)) PORTB = 0x0F;
+		else if (i <= (decrement * 5)) PORTB = 0x1F;
+		else if (i <= (decrement * 6)) PORTB = 0x3F;
+		else if (i <= (decrement * 7)) PORTB = 0x7F;
+		else if (i <= (decrement * 8)) PORTB = 0xFF;
+	}
     return 1;
 }
